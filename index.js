@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
+// const connection = require("./db/connection");
 require("console.table");
-// const db = require("./db");
+const queries = require("./db/queries");
 
 function init() {
     // start inquirer
@@ -24,11 +25,11 @@ function init() {
                 },
                 {
                     name: "Add a department",
-                    value: "ADD_A_DEPARTMENT"
+                    value: "ADD_DEPARTMENT"
                 },
                 {
                     name: "Add a role",
-                    value: "ADD_A_ROLE"
+                    value: "ADD_ROLE"
                 },
                 {
                     name: "Add an employee",
@@ -46,22 +47,94 @@ function init() {
         }
     ]).then(data => {
         const input = data.action;
-        
+
         switch (input) {
             case 'VIEW_ALL_DEPARTMENTS':
                 viewAllDepartments();
                 break;
-            case 'VIEW_ALL_DEPARTMENTS':
-                viewAllDepartments();
-                    break;
+            case 'VIEW_ALL_ROLES':
+                viewAllRoles();
+                break;
+            case 'VIEW_ALL_EMPLOYEES':
+                viewAllEmployees();
+                break;
+            case 'ADD_DEPARTMENT':
+                addDepartment();
+                break;
+            case 'ADD_ROLE':
+                addRole();
+                break;
+            case 'ADD_EMPLOYEE':
+                addEmployee();
+                break; 
+            case 'UPDATE_EMPLOYEE_ROLE':
+                updateEmployeeRole();
+            break;
             default:
-            console.log(`Sorry, we are out of ${expr}.`);
-}
+                console.log('Goodbye!')
+                quit();
+        }
     })
 }
 
-function viewAllDepartments(){
-    
+function viewAllDepartments() {
+    queries.queryAllDepartments()
+    .then( ([rows]) => {
+      console.table(rows);
+    })
+    .catch(console.log)
+    .then( () => init());
 }
+
+function viewAllRoles() {
+    queries.queryAllRoles()
+    .then( ([rows]) => {
+      console.table(rows);
+    })
+    .catch(console.log)
+    .then( () => init());
+}
+
+function viewAllEmployees() {
+    queries.queryAllEmployees()
+    .then( ([rows]) => {
+      console.table(rows);
+    })
+    .catch(console.log)
+    .then( () => init());
+}
+
+function addDepartment() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter the Department Name:',
+            name: 'deptInput'
+        }
+    ]).then((data) => {
+        const input = data.deptInput;
+        queries.queryAddDepartment(input)
+
+    }).then(() => console.log('Department Added Successfully'))
+    .then(() => init())
+}
+
+function addRole() {
+
+}
+
+function addEmployee() {
+
+}
+
+function queryUpdateEmployeeRole() {
+
+}
+
+// Quit the application
+function quit() {
+    process.exit();
+}
+
 
 init();
