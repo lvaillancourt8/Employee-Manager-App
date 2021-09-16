@@ -1,0 +1,25 @@
+{
+  "name": "employee-manager-app",
+  "version": "1.0.0",
+  "description": "Unit 12 Bootcamp Homework - Build an Employee Management App using Node.js, Inquirer and MySQL",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lvaillancourt8/Employee-Manager-App.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lvaillancourt8/Employee-Manager-App/issues"
+  },
+  "homepage": "https://github.com/lvaillancourt8/Employee-Manager-App#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.1.3",
+    "mysql2": "^2.3.0"
+  }
+}
