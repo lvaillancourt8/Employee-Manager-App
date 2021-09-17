@@ -13,29 +13,19 @@ function queryAllEmployees() {
 }
 
 function queryAddDepartment(input) {
-    console.log("query input = " + input)
     connection.query('INSERT INTO department (dept_name) VALUES (?)', input);
 }
 
-// function queryAddRole() {
-//     let newTitle =
-//     let newSalary = 
-//     let newDepartment =  
-//     connection.promise().query(`INSERT INTO role VALUES (?, ?, ?)`, [], (err, result) => {
-//         if (err) {
-//           console.log(err);
-//         }
-//         console.log('Department Successfully Added')
-//         return result;
-//       });
-// }
+function queryAddRole(roleName, roleSalary, roleDept) {
+    connection.promise().query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)', [roleName, roleSalary, roleDept]);
+}
 
-// function queryAddEmployee() {
+function queryAddEmployee() {
 
-// }
+}
 
-// function queryUpdateEmployeeRole() {
+function queryUpdateEmployeeRole() {
 
-// }
+}
 
-module.exports = { queryAllDepartments, queryAllRoles, queryAllEmployees, queryAddDepartment };
+module.exports = { queryAllDepartments, queryAllRoles, queryAllEmployees, queryAddDepartment, queryAddRole, queryAddEmployee, queryUpdateEmployeeRole };

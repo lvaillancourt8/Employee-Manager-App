@@ -113,7 +113,6 @@ function addDepartment() {
         }
     ]).then((data) => {
         const input = data.deptInput;
-        console.log(input)
         queries.queryAddDepartment(input)
     }).then(() => console.log('Department Added Successfully'))
       .then(() => init())
@@ -121,19 +120,41 @@ function addDepartment() {
 }
 
 function addRole() {
-    inquirer.prompt([
-        {
-            type: 'input',
-            message: 'Enter the Department Name:',
-            name: 'roleInput'
-        }
-    ]).then((data) => {
-        const input = data.roleInput;
-        console.log(input)
-        queries.queryAddDepartment(input)
-    }).then(() => console.log('Department Added Successfully'))
-      .then(() => init())
-      .catch(console.log)
+    queries.queryAllDepartments()
+    .then(([rows]) => {
+        let departments = rows;
+        const departmentChoices = departments.map(({ id, dept_name }) => ({
+            name: dept_name,
+            value: id
+        }))
+
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: 'What is the name of the role?:',
+                name: 'roleName'
+            },
+            {
+                type: 'input',
+                message: 'What is the salary of the role?',
+                name: 'roleSalary'
+            },
+            {
+                type: 'list',
+                message: 'What department does the role belong to?',
+                name: 'roleDept',
+                choices: departmentChoices
+            }
+        ]).then((data) => {
+            const {roleName, roleSalary, roleDept} = data
+            queries.queryAddRole(roleName, roleSalary, roleDept)
+        }).then(() => console.log('Role Added Successfully'))
+          .then(() => init())
+          .catch(console.log)
+
+    });
+
+    
 }
 
 function addEmployee() {
