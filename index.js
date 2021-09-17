@@ -78,6 +78,7 @@ function init() {
 }
 
 function viewAllDepartments() {
+    console.log('\n');
     queries.queryAllDepartments()
     .then( ([rows]) => {
       console.table(rows);
@@ -87,6 +88,7 @@ function viewAllDepartments() {
 }
 
 function viewAllRoles() {
+    console.log('\n');    
     queries.queryAllRoles()
     .then( ([rows]) => {
       console.table(rows);
@@ -96,6 +98,7 @@ function viewAllRoles() {
 }
 
 function viewAllEmployees() {
+    console.log('\n');
     queries.queryAllEmployees()
     .then( ([rows]) => {
       console.table(rows);
@@ -114,8 +117,10 @@ function addDepartment() {
     ]).then((data) => {
         const input = data.deptInput;
         queries.queryAddDepartment(input)
-    }).then(() => console.log('Department Added Successfully'))
-      .then(() => init())
+    }).then(() => {
+        console.log('\n');
+        console.log('Department Added Successfully')
+    }).then(() => init())
       .catch(console.log)
 }
 
@@ -148,8 +153,10 @@ function addRole() {
         ]).then((data) => {
             const {roleName, roleSalary, roleDept} = data
             queries.queryAddRole(roleName, roleSalary, roleDept)
-        }).then(() => console.log('Role Added Successfully'))
-          .then(() => init())
+        }).then(() => {
+        console.log('\n');
+        console.log('Role Added Successfully')
+        }).then(() => init())
           .catch(console.log)
     });
  }
@@ -197,8 +204,10 @@ function addRole() {
         ]).then((data) => {
             const {firstName, lastName, empRole, empManager} = data
             queries.queryAddEmployee(firstName, lastName, empRole, empManager)
-        }).then(() => console.log('Employee Added Successfully'))
-          .then(() => init())
+        }).then(() => {
+        console.log('\n');
+        console.log('Employee Added Successfully')
+        }).then(() => init())
           .catch(console.log)
     })
     })
@@ -238,8 +247,10 @@ function updateEmployeeRole() {
         ]).then((data) => {
             const {empId, updatedRoleId} = data
             queries.queryUpdateEmployeeRole(empId, updatedRoleId)
-        }).then(() => console.log('Employee Role Updated Successfully'))
-          .then(() => init())
+        }).then(() => {
+        console.log('\n');
+        console.log('Employee Role Updated Successfully')
+        }).then(() => init())
           .catch(console.log)
     })
     })

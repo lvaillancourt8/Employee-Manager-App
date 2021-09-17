@@ -1,7 +1,7 @@
 const connection = require("./connection");
 
 function queryAllDepartments() {
-   return connection.promise().query("SELECT * FROM department");
+   return connection.promise().query("SELECT dept_name AS 'Department', id AS 'Department ID' FROM department");
 }
 
 function queryAllRoles() {
