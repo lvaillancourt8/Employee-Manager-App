@@ -14,7 +14,7 @@ function queryAllEmployees() {
 
 function queryAddDepartment(input) {
     console.log("query input = " + input)
-    connection.query('INSERT INTO department (dept_name) VALUE (?)', input);
+    connection.query('INSERT INTO department (dept_name) VALUES (?)', input);
 }
 
 // function queryAddRole() {

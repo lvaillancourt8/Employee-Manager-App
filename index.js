@@ -121,7 +121,19 @@ function addDepartment() {
 }
 
 function addRole() {
-
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Enter the Department Name:',
+            name: 'roleInput'
+        }
+    ]).then((data) => {
+        const input = data.roleInput;
+        console.log(input)
+        queries.queryAddDepartment(input)
+    }).then(() => console.log('Department Added Successfully'))
+      .then(() => init())
+      .catch(console.log)
 }
 
 function addEmployee() {
