@@ -13,7 +13,8 @@ function queryAllEmployees() {
 }
 
 function queryAddDepartment(input) {
-    connection.query(`INSERT INTO department VALUES ?`, input);
+    console.log("query input = " + input)
+    connection.query('INSERT INTO department (dept_name) VALUE (?)', input);
 }
 
 // function queryAddRole() {

@@ -113,10 +113,11 @@ function addDepartment() {
         }
     ]).then((data) => {
         const input = data.deptInput;
+        console.log(input)
         queries.queryAddDepartment(input)
-
     }).then(() => console.log('Department Added Successfully'))
-    .then(() => init())
+      .then(() => init())
+      .catch(console.log)
 }
 
 function addRole() {
