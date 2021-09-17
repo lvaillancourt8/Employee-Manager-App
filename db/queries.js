@@ -12,6 +12,10 @@ function queryAllEmployees() {
     return connection.promise().query("SELECT * FROM employee");
 }
 
+function queryAllEmployeesFormatted() {
+    return connection.promise().query("SELECT CONCAT(employee.first_name, ' ',employee.last_name) AS 'Name', role.title AS 'Title', employee.id AS 'Employee ID', dept_name AS 'Department', salary AS 'Salary', CONCAT(manager.first_name, ' ', manager.last_name) AS 'Manager'FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON department.id = role.department_id INNER JOIN employee manager ON employee.id = manager.manager_id");
+}
+
 function queryAddDepartment(input) {
     connection.query('INSERT INTO department (dept_name) VALUES (?)', input);
 }
@@ -28,4 +32,4 @@ function queryUpdateEmployeeRole(empId, updatedRoleId) {
     connection.promise().query('UPDATE employee SET role_id = ? WHERE id = ?', [updatedRoleId, empId]);
 }
 
-module.exports = { queryAllDepartments, queryAllRoles, queryAllEmployees, queryAddDepartment, queryAddRole, queryAddEmployee, queryUpdateEmployeeRole };
+module.exports = { queryAllDepartments, queryAllRoles, queryAllEmployees, queryAllEmployeesFormatted, queryAddDepartment, queryAddRole, queryAddEmployee, queryUpdateEmployeeRole };

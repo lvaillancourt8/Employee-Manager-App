@@ -99,7 +99,7 @@ function viewAllRoles() {
 
 function viewAllEmployees() {
     console.log('\n');
-    queries.queryAllEmployees()
+    queries.queryAllEmployeesFormatted()
     .then( ([rows]) => {
       console.table(rows);
     })
