@@ -151,19 +151,99 @@ function addRole() {
         }).then(() => console.log('Role Added Successfully'))
           .then(() => init())
           .catch(console.log)
-
     });
+ }
 
-    
-}
+ function addEmployee() {
+    queries.queryAllRoles()
+    .then(([rows]) => {
+        let roles = rows;
+        const roleChoices = roles.map(({ id, title }) => ({
+            name: title,
+            value: id
+        }))   
 
-function addEmployee() {
+    queries.queryAllEmployees()
+    .then(([rows]) => {
+        let managers = rows;
+        const managerChoices = managers.map(({ id, first_name, last_name }) => ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }))      
 
-}
+        inquirer.prompt([
+            {
+                type: 'input',
+                message: "What is the employee's first name?:",
+                name: 'firstName'
+            },
+            {
+                type: 'input',
+                message: "What is the employee's last name?:",
+                name: 'lastName'
+            },
+            {
+                type: 'list',
+                message: 'Select the employee role',
+                name: 'empRole',
+                choices: roleChoices
+            },
+            {
+                type: 'list',
+                message: 'Select their Manager',
+                name: 'empManager',
+                choices: managerChoices
+            }            
+        ]).then((data) => {
+            const {firstName, lastName, empRole, empManager} = data
+            queries.queryAddEmployee(firstName, lastName, empRole, empManager)
+        }).then(() => console.log('Employee Added Successfully'))
+          .then(() => init())
+          .catch(console.log)
+    })
+    })
+ }
 
-function queryUpdateEmployeeRole() {
 
-}
+function updateEmployeeRole() {
+    queries.queryAllRoles()
+    .then(([rows]) => {
+        let roles = rows;
+        const roleChoices = roles.map(({ id, title }) => ({
+            name: title,
+            value: id
+        }))   
+
+    queries.queryAllEmployees()
+    .then(([rows]) => {
+        let employees = rows;
+        const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }))      
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                message: 'Select the employee',
+                name: 'empId',
+                choices: employeeChoices
+            },
+            {
+                type: 'list',
+                message: 'Select their new role',
+                name: 'updatedRoleId',
+                choices: roleChoices
+            }            
+        ]).then((data) => {
+            const {empId, updatedRoleId} = data
+            queries.queryUpdateEmployeeRole(empId, updatedRoleId)
+        }).then(() => console.log('Employee Role Updated Successfully'))
+          .then(() => init())
+          .catch(console.log)
+    })
+    })
+ }
 
 // Quit the application
 function quit() {
