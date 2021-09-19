@@ -79,7 +79,7 @@ function init() {
 
 function viewAllDepartments() {
     console.log('\n');
-    queries.queryAllDepartments()
+    queries.queryAllDepartmentsFormatted()
     .then( ([rows]) => {
       console.table(rows);
     })
@@ -128,6 +128,7 @@ function addRole() {
     queries.queryAllDepartments()
     .then(([rows]) => {
         let departments = rows;
+        console.log(rows);
         const departmentChoices = departments.map(({ id, dept_name }) => ({
             name: dept_name,
             value: id
