@@ -89,7 +89,7 @@ function viewAllDepartments() {
 
 function viewAllRoles() {
     console.log('\n');    
-    queries.queryAllRoles()
+    queries.queryAllRolesFormatted()
     .then( ([rows]) => {
       console.table(rows);
     })
