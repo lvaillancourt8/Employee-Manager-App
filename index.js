@@ -366,10 +366,11 @@ function viewEmployeesByManager() {
             },
         ]).then((data) => {
             const {managerId} = data
-            console.log(managerId);
-            queries.queryGetEmployeesByManager(managerId)
+            console.log('\n');
+            return queries.queryGetEmployeesByManager(managerId)
         }).then(([rows]) => {
             console.table(rows);
+            console.log('\n')
         })
         .catch(console.log)
         .then( () => init());
@@ -394,9 +395,8 @@ function viewEmployeesByDepartment() {
             }
         ]).then((data) => {
             console.log(data);
-            const {deptId} = data
             console.log('\n');
-            queries.queryDepartmentEmployees(deptId);
+            return queries.queryDepartmentEmployees(deptId);
         }).then( ([rows]) => {
             console.table(rows);
             console.log('\n');
@@ -505,10 +505,9 @@ function departmentBudget() {
                 choices: departmentChoices
             }
         ]).then((data) => {
-            console.log(data);
-            const {deptId} = data
+            const deptId = data.deptId
             console.log('\n');
-            queries.queryDepartmentBudget(deptId);
+            return queries.queryDepartmentBudget(deptId);
         }).then( ([rows]) => {
             console.table(rows);
             console.log('\n');

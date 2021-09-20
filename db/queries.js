@@ -69,7 +69,7 @@ function queryDeleteEmployee (empToDelete) {
 }
 
 function queryDepartmentBudget (deptId) {
-    return connection.promise().query('SELECT dept_name AS "Department", SUM(salary) AS "Total Budget" FROM employee JOIN role ON role_id = role.id JOIN department ON department.id = department.id WHERE department.id = ? GROUP BY dept_name', [deptId]);
+    return connection.promise().query('SELECT dept_name AS "Department", SUM(salary) AS "Total HR Budget" FROM employee LEFT JOIN role ON role.id = role_id LEFT JOIN department ON department_id = department.id WHERE department_id = ?', [deptId]);
 }
 
 module.exports = { queryAllDepartments, queryAllDepartmentsFormatted, queryAllRoles, queryAllRolesFormatted, queryAllEmployees, queryAllEmployeesFormatted, queryAddDepartment, queryAddRole, queryAddEmployee, queryUpdateEmployeeRole, queryUpdateEmployeeManager, queryAllManagers, queryGetEmployeesByManager, queryDeleteDept, queryDeleteRole, queryDeleteEmployee,
