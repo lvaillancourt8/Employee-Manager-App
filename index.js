@@ -1,10 +1,13 @@
+// Dependencies
 const inquirer = require("inquirer");
-// const connection = require("./db/connection");
 require("console.table");
+
+// link to the database queries
 const queries = require("./db/queries");
 
+// Initialize application
 function init() {
-    // start inquirer
+    // start inquirer - present application menu
     inquirer.prompt([
         {
             type: "list",
@@ -126,6 +129,7 @@ function init() {
     })
 }
 
+//  Link to database query to view all departments
 function viewAllDepartments() {
     console.log('\n');
     queries.queryAllDepartmentsFormatted()
@@ -137,6 +141,7 @@ function viewAllDepartments() {
     .then( () => init());
 }
 
+// Link to database query to view all roles
 function viewAllRoles() {
     console.log('\n');    
     queries.queryAllRolesFormatted()
@@ -148,6 +153,7 @@ function viewAllRoles() {
     .then( () => init());
 }
 
+//  Link to database query to view all employees as required in acceptance criteria
 function viewAllEmployees() {
     console.log('\n');
     queries.queryAllEmployeesFormatted()
@@ -159,6 +165,7 @@ function viewAllEmployees() {
     .then( () => init());
 }
 
+// Link to query to add a new department to the database
 function addDepartment() {
     inquirer.prompt([
         {
@@ -177,6 +184,7 @@ function addDepartment() {
       .catch(console.log)
 }
 
+//  Link to query to add a new role to the database
 function addRole() {
     queries.queryAllDepartments()
     .then(([rows]) => {
@@ -215,7 +223,10 @@ function addRole() {
     });
  }
 
+//  Link to query to add a new employee to the database
  function addEmployee() {
+
+    //  Get the list of roles to choose from
     queries.queryAllRoles()
     .then(([rows]) => {
         let roles = rows;
@@ -224,6 +235,7 @@ function addRole() {
             value: id
         }))   
 
+    // Get the list of managers to choose from
     queries.queryAllEmployees()
     .then(([rows]) => {
         let managers = rows;
@@ -268,8 +280,10 @@ function addRole() {
     })
  }
 
-
+// Link to query to update an employee role
 function updateEmployeeRole() {
+
+    // get list of roles to choose from
     queries.queryAllRoles()
     .then(([rows]) => {
         let roles = rows;
@@ -278,6 +292,7 @@ function updateEmployeeRole() {
             value: id
         }))   
 
+    // get a list of employees to choose from 
     queries.queryAllEmployees()
     .then(([rows]) => {
         let employees = rows;
@@ -312,8 +327,10 @@ function updateEmployeeRole() {
     })
  }
 
+//  Link to query to update an employee's manager
  function updateEmployeeManager() {
 
+    // get a list of all employees to choose from
     queries.queryAllEmployees()
     .then(([rows]) => {
         let employees = rows;
@@ -347,8 +364,10 @@ function updateEmployeeRole() {
     })
  }
 
+//  Link to query to view a list of employees that report to a certain manager
 function viewEmployeesByManager() {   
 
+    // get the list of all managers to choose from
     queries.queryAllManagers()
     .then(([rows]) => {
         let managers = rows;
@@ -377,7 +396,10 @@ function viewEmployeesByManager() {
     })
 }
 
+// Link to query to view all employees in a certain department
 function viewEmployeesByDepartment() {
+
+    // Get a list of departments to choose from
     queries.queryAllDepartments()
     .then(([rows]) => {
         let departments = rows;
@@ -405,7 +427,10 @@ function viewEmployeesByDepartment() {
     });  
 }
 
+// Link to query to delete a role from the database
 function deleteRole() {
+
+    // Get a list of roles to choose from
     queries.queryAllRoles()
     .then(([rows]) => {
         let roles = rows;
@@ -427,12 +452,16 @@ function deleteRole() {
         }).then(() => {
         console.log('\n');
         console.log('Role Deleted Successfully')
+        console.log('\n');
         }).then(() => init())
           .catch(console.log)
     });
 }
 
+// Link to query to delete a department from the database
 function deleteDepartment(){
+
+    // Get a list of all departments to choose from
     queries.queryAllDepartments()
     .then(([rows]) => {
         let departments = rows;
@@ -460,7 +489,10 @@ function deleteDepartment(){
     });  
 }
 
+//  Link to query to delete an employee from the database
 function deleteEmployee() {
+
+    // Get a list of all employess to choose from
     queries.queryAllEmployees()
     .then(([rows]) => {
         let employees = rows;
@@ -488,7 +520,10 @@ function deleteEmployee() {
     })
 }
 
+// Link to query to return the subtotal of employee salaries by a certain department
 function departmentBudget() {
+
+    // Get a list of all departments to choose from
     queries.queryAllDepartments()
     .then(([rows]) => {
         let departments = rows;
