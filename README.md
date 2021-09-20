@@ -50,4 +50,4 @@ View the total utilized budget of a department—in other words, the combined sa
 
 The following images show the web application's appearance and functionality:
 
-![app screenshot](https://user-images.githubusercontent.com/55712456/134057610-1bf621d3-f5c0-4881-bd3b-37c8ebdc577e.jpg)
+![app screenshot](https://user-images.githubusercontent.com/55712456/134058126-eb803602-bf32-45f4-8e27-60fe73a42241.jpg)
