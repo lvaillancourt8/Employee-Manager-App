@@ -40,4 +40,37 @@ function queryUpdateEmployeeRole(empId, updatedRoleId) {
     connection.promise().query('UPDATE employee SET role_id = ? WHERE id = ?', [updatedRoleId, empId]);
 }
 
-module.exports = { queryAllDepartments, queryAllDepartmentsFormatted, queryAllRoles, queryAllRolesFormatted, queryAllEmployees, queryAllEmployeesFormatted, queryAddDepartment, queryAddRole, queryAddEmployee, queryUpdateEmployeeRole };
+function queryUpdateEmployeeManager(empId, updatedManagerId) {
+    connection.promise().query('UPDATE employee SET manager_id = ? WHERE id = ?', [updatedManagerId, empId]);
+}
+
+function queryAllManagers() {
+    return connection.promise().query("SELECT m.first_name, m.last_name, e.manager_id FROM employee e JOIN employee m WHERE e.manager_id = m.id GROUP BY e.manager_id ORDER BY last_name");
+}
+
+function queryGetEmployeesByManager(managerId) {
+    return connection.promise().query("SELECT CONCAT(first_name, ' ', last_name) AS 'Employees' FROM employee WHERE manager_id = ? ORDER BY last_name", [managerId]);
+}
+
+function queryDepartmentEmployees(deptId) {
+    return connection.promise().query("SELECT CONCAT(first_name, ' ', last_name) AS 'Department Employee Roster' FROM employee LEFT JOIN role ON role_id = role.id LEFT JOIN department ON department.id = department_id WHERE department.id = ?", [deptId]);
+}
+
+function queryDeleteDept (deptName) {
+    connection.query('DELETE FROM department WHERE id = ?', deptName);
+}
+
+function queryDeleteRole (roleToDelete) {
+    connection.query('DELETE FROM role WHERE id = ?', roleToDelete);
+}
+
+function queryDeleteEmployee (empToDelete) {
+    connection.query('DELETE FROM employee WHERE id = ?', empToDelete);
+}
+
+function queryDepartmentBudget (deptId) {
+    return connection.promise().query('SELECT dept_name AS "Department", SUM(salary) AS "Total Budget" FROM employee JOIN role ON role_id = role.id JOIN department ON department.id = department.id WHERE department.id = ? GROUP BY dept_name', [deptId]);
+}
+
+module.exports = { queryAllDepartments, queryAllDepartmentsFormatted, queryAllRoles, queryAllRolesFormatted, queryAllEmployees, queryAllEmployeesFormatted, queryAddDepartment, queryAddRole, queryAddEmployee, queryUpdateEmployeeRole, queryUpdateEmployeeManager, queryAllManagers, queryGetEmployeesByManager, queryDeleteDept, queryDeleteRole, queryDeleteEmployee,
+queryDepartmentBudget, queryDepartmentEmployees };
