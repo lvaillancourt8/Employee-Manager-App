@@ -40,6 +40,34 @@ function init() {
                     value: "UPDATE_EMPLOYEE_ROLE"
                 },
                 {
+                    name: "Update an employee's Manager",
+                    value: "UPDATE_EMPLOYEE_MANAGER"
+                },
+                {
+                    name: "View Employees By Manager",
+                    value: "VIEW_EMPLOYEES_BY_MANAGER"
+                },                  
+                {
+                    name: "View Employees By Department",
+                    value: "VIEW_EMPLOYEES_BY_DEPARTMENT"
+                },                   
+                {
+                    name: "Delete a Role",
+                    value: "DELETE_ROLE"
+                },   
+                {
+                    name: "Delete a Department",
+                    value: "DELETE_DEPARTMENT"
+                },
+                {
+                    name: "Delete an Employee",
+                    value: "DELETE_EMPLOYEE"
+                },                     
+                {
+                    name: "View Total HR Budget for a Department",
+                    value: "VIEW_DEPT_BUDGET"
+                },   
+                {
                     name: "Quit",
                     value: "QUIT_APP"
                 },
@@ -69,7 +97,28 @@ function init() {
                 break; 
             case 'UPDATE_EMPLOYEE_ROLE':
                 updateEmployeeRole();
-            break;
+                break;
+            case 'UPDATE_EMPLOYEE_MANAGER':
+                updateEmployeeManager();               
+                break;
+            case 'VIEW_EMPLOYEES_BY_MANAGER':
+                viewEmployeesByManager();              
+                break;
+            case 'VIEW_EMPLOYEES_BY_DEPARTMENT':
+                viewEmployeesByDepartment();    
+                break;
+            case 'DELETE_ROLE':
+                deleteRole();
+                break;
+            case 'DELETE_DEPARTMENT':
+                deleteDepartment();
+                break;
+            case 'DELETE_EMPLOYEE':
+                deleteEmployee();
+                break;
+            case 'VIEW_DEPT_BUDGET':
+                departmentBudget();
+                break    
             default:
                 console.log('Goodbye!')
                 quit();
@@ -128,7 +177,6 @@ function addRole() {
     queries.queryAllDepartments()
     .then(([rows]) => {
         let departments = rows;
-        console.log(rows);
         const departmentChoices = departments.map(({ id, dept_name }) => ({
             name: dept_name,
             value: id
@@ -257,6 +305,158 @@ function updateEmployeeRole() {
     })
  }
 
+ function updateEmployeeManager() {
+
+    queries.queryAllEmployees()
+    .then(([rows]) => {
+        let employees = rows;
+        const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }))      
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                message: 'Select the employee',
+                name: 'empId',
+                choices: employeeChoices
+            },
+            {
+                type: 'list',
+                message: 'Select their new Manager',
+                name: 'updatedManagerId',
+                choices: employeeChoices
+            }            
+        ]).then((data) => {
+            const {empId, updatedManagerId} = data
+            queries.queryUpdateEmployeeManager(empId, updatedManagerId)
+        }).then(() => {
+        console.log('\n');
+        console.log('Employee Manager Updated Successfully')
+        }).then(() => init())
+          .catch(console.log)
+    })
+ }
+
+// function viewEmployeesByManager() {   
+
+//     queries.queryAllManagers()
+//     .then(([rows]) => {
+//         let managers = rows;
+//         const managerChoices = managers.map(({ manager_id, first_name, last_name }) => ({
+//             name: `${first_name} ${last_name}`,
+//             value: manager_id
+//         }))      
+
+//         inquirer.prompt([
+//             {
+//                 type: 'list',
+//                 message: 'Select a Manager',
+//                 name: 'managerId',
+//                 choices: managerChoices
+//             },
+//         ]).then((data) => {
+//             const {managerId} = data
+//             console.log(managerId);
+//             queries.queryGetEmployeesByManager(managerId)
+//         }).then(([rows]) => {
+//             console.table(rows);
+//         })
+//         .catch(console.log)
+//         .then( () => init());
+//     })
+// }
+
+// function viewEmployeesByDepartment() {
+
+// }
+
+function deleteRole() {
+    queries.queryAllRoles()
+    .then(([rows]) => {
+        let roles = rows;
+        const roleChoices = roles.map(({ id, title }) => ({
+            name: title,
+            value: id
+        }))
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                message: 'Choose a role to delete',
+                name: 'roleToDelete',
+                choices: roleChoices
+            }
+        ]).then((data) => {
+            const {roleToDelete} = data
+            queries.queryDeleteRole(roleToDelete)
+        }).then(() => {
+        console.log('\n');
+        console.log('Role Deleted Successfully')
+        }).then(() => init())
+          .catch(console.log)
+    });
+}
+
+function deleteDepartment(){
+    queries.queryAllDepartments()
+    .then(([rows]) => {
+        let departments = rows;
+        const departmentChoices = departments.map(({ id, dept_name }) => ({
+            name: dept_name,
+            value: id
+        }))
+
+        inquirer.prompt([
+                        {
+                type: 'list',
+                message: 'Choose a department to delete',
+                name: 'deptName',
+                choices: departmentChoices
+            }
+        ]).then((data) => {
+            const {deptName} = data
+            queries.queryDeleteDept(deptName)
+        }).then(() => {
+        console.log('\n');
+        console.log('Department Deleted')
+        console.log('\n');
+        }).then(() => init())
+          .catch(console.log)
+    });  
+}
+
+function deleteEmployee() {
+    queries.queryAllEmployees()
+    .then(([rows]) => {
+        let employees = rows;
+        const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }))      
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                message: 'Select an employee to delete',
+                name: 'empToDelete',
+                choices: employeeChoices
+            }            
+        ]).then((data) => {
+            const {empToDelete} = data
+            queries.queryDeleteEmployee(empToDelete)
+        }).then(() => {
+        console.log('\n');
+        console.log('Employee has been deleted')
+        console.log('\n');
+        }).then(() => init())
+          .catch(console.log)
+    })
+}
+
+// function departmentBudget()
+ 
 // Quit the application
 function quit() {
     process.exit();
