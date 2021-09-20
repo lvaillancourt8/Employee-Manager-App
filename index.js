@@ -394,7 +394,7 @@ function viewEmployeesByDepartment() {
                 choices: departmentChoices
             }
         ]).then((data) => {
-            console.log(data);
+            const deptId = data.deptId
             console.log('\n');
             return queries.queryDepartmentEmployees(deptId);
         }).then( ([rows]) => {
