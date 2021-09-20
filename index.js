@@ -131,6 +131,7 @@ function viewAllDepartments() {
     queries.queryAllDepartmentsFormatted()
     .then( ([rows]) => {
       console.table(rows);
+      console.log('\n');      
     })
     .catch(console.log)
     .then( () => init());
@@ -141,6 +142,7 @@ function viewAllRoles() {
     queries.queryAllRolesFormatted()
     .then( ([rows]) => {
       console.table(rows);
+      console.log('\n');
     })
     .catch(console.log)
     .then( () => init());
@@ -151,6 +153,7 @@ function viewAllEmployees() {
     queries.queryAllEmployeesFormatted()
     .then( ([rows]) => {
       console.table(rows);
+      console.log('\n');
     })
     .catch(console.log)
     .then( () => init());
@@ -169,6 +172,7 @@ function addDepartment() {
     }).then(() => {
         console.log('\n');
         console.log('Department Added Successfully')
+        console.log('\n');
     }).then(() => init())
       .catch(console.log)
 }
@@ -205,6 +209,7 @@ function addRole() {
         }).then(() => {
         console.log('\n');
         console.log('Role Added Successfully')
+        console.log('\n');
         }).then(() => init())
           .catch(console.log)
     });
@@ -256,6 +261,7 @@ function addRole() {
         }).then(() => {
         console.log('\n');
         console.log('Employee Added Successfully')
+        console.log('\n');
         }).then(() => init())
           .catch(console.log)
     })
@@ -299,6 +305,7 @@ function updateEmployeeRole() {
         }).then(() => {
         console.log('\n');
         console.log('Employee Role Updated Successfully')
+        console.log('\n');
         }).then(() => init())
           .catch(console.log)
     })
@@ -334,43 +341,69 @@ function updateEmployeeRole() {
         }).then(() => {
         console.log('\n');
         console.log('Employee Manager Updated Successfully')
+        console.log('\n');
         }).then(() => init())
           .catch(console.log)
     })
  }
 
-// function viewEmployeesByManager() {   
+function viewEmployeesByManager() {   
 
-//     queries.queryAllManagers()
-//     .then(([rows]) => {
-//         let managers = rows;
-//         const managerChoices = managers.map(({ manager_id, first_name, last_name }) => ({
-//             name: `${first_name} ${last_name}`,
-//             value: manager_id
-//         }))      
+    queries.queryAllManagers()
+    .then(([rows]) => {
+        let managers = rows;
+        const managerChoices = managers.map(({ manager_id, first_name, last_name }) => ({
+            name: `${first_name} ${last_name}`,
+            value: manager_id
+        }))      
 
-//         inquirer.prompt([
-//             {
-//                 type: 'list',
-//                 message: 'Select a Manager',
-//                 name: 'managerId',
-//                 choices: managerChoices
-//             },
-//         ]).then((data) => {
-//             const {managerId} = data
-//             console.log(managerId);
-//             queries.queryGetEmployeesByManager(managerId)
-//         }).then(([rows]) => {
-//             console.table(rows);
-//         })
-//         .catch(console.log)
-//         .then( () => init());
-//     })
-// }
+        inquirer.prompt([
+            {
+                type: 'list',
+                message: 'Select a Manager',
+                name: 'managerId',
+                choices: managerChoices
+            },
+        ]).then((data) => {
+            const {managerId} = data
+            console.log(managerId);
+            queries.queryGetEmployeesByManager(managerId)
+        }).then(([rows]) => {
+            console.table(rows);
+        })
+        .catch(console.log)
+        .then( () => init());
+    })
+}
 
-// function viewEmployeesByDepartment() {
+function viewEmployeesByDepartment() {
+    queries.queryAllDepartments()
+    .then(([rows]) => {
+        let departments = rows;
+        const departmentChoices = departments.map(({ id, dept_name }) => ({
+            name: dept_name,
+            value: id
+        }))
 
-// }
+        inquirer.prompt([
+            {
+                type: 'list',
+                message: 'Choose a department',
+                name: 'deptId',
+                choices: departmentChoices
+            }
+        ]).then((data) => {
+            console.log(data);
+            const {deptId} = data
+            console.log('\n');
+            queries.queryDepartmentEmployees(deptId);
+        }).then( ([rows]) => {
+            console.table(rows);
+            console.log('\n');
+        }).then(() => init())
+          .catch(console.log)
+    });  
+}
 
 function deleteRole() {
     queries.queryAllRoles()
@@ -455,7 +488,34 @@ function deleteEmployee() {
     })
 }
 
-// function departmentBudget()
+function departmentBudget() {
+    queries.queryAllDepartments()
+    .then(([rows]) => {
+        let departments = rows;
+        const departmentChoices = departments.map(({ id, dept_name }) => ({
+            name: dept_name,
+            value: id
+        }))
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                message: 'View Total HR Budget for a Department',
+                name: 'deptId',
+                choices: departmentChoices
+            }
+        ]).then((data) => {
+            console.log(data);
+            const {deptId} = data
+            console.log('\n');
+            queries.queryDepartmentBudget(deptId);
+        }).then( ([rows]) => {
+            console.table(rows);
+            console.log('\n');
+        }).then(() => init())
+          .catch(console.log)
+    });  
+}
  
 // Quit the application
 function quit() {
